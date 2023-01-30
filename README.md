@@ -1,1 +1,1 @@
-# Cosplay Downloader
+# Hentai Cosplay
