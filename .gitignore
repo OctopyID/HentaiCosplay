@@ -1,0 +1,14 @@
+# IDEA
+.idea
+.idea.*.php
+
+# PROJECT
+/vendor
+/builds
+/storage
+.env
+.env.backup
+.env.testing
+.phpunit.result.cache
+
+/database/database.sqlite
