@@ -12,15 +12,16 @@ class HttpClient
 {
     /**
      * @param  string $url
+     * @param  array  $options
      * @return Response
      */
-    public function fetch(string $url) : Response
+    public function fetch(string $url, array $options = []) : Response
     {
-        return Http::withHeaders([
+        $http = Http::withOptions($options)->withHeaders([
             'User-Agent' => $this->randomUserAgent(),
-        ])
-            ->retry(3, 1000)
-            ->get($url);
+        ]);
+
+        return $http->retry(3, 1000)->get($url);
     }
 
     /**
