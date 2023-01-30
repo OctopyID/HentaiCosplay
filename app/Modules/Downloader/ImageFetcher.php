@@ -42,11 +42,18 @@ class ImageFetcher extends Module
 
             $name = $this->name($image);
 
+            // TODO : optimize this
             $this->output->task($name, function () use ($name, $image) {
                 if (! $this->storage) {
-                    Storage::disk('image')->put($name, $this->http->fetch(
-                        $image->url
-                    ));
+                    if (Storage::disk('image')->exists($name)) {
+                        $image->update([
+                            'status' => true,
+                        ]);
+                    } else {
+                        Storage::disk('image')->put($name, $this->http->fetch(
+                            $image->url
+                        ));
+                    }
                 } else {
                     $directory = preg_replace('/\/+/', '/', $this->storage . '/' . dirname($name));
 
@@ -54,9 +61,15 @@ class ImageFetcher extends Module
                         mkdir($directory, 0777, true);
                     }
 
-                    file_put_contents($this->storage . '/' . $name, $this->http->fetch(
-                        $image->url
-                    ));
+                    if (file_exists($this->storage . '/' . $name)) {
+                        $image->update([
+                            'status' => true,
+                        ]);
+                    } else {
+                        file_put_contents($this->storage . '/' . $name, $this->http->fetch(
+                            $image->url
+                        ));
+                    }
                 }
 
                 $image->update([
@@ -76,8 +89,10 @@ class ImageFetcher extends Module
             $image->page->main->url, PHP_URL_PATH
         ));
 
+        $name = preg_replace('/[-_]{2,}/', '-', $name);
+
         if (strlen($name) > 100) {
-            $name = substr($name, 0, 10);
+            $name = substr($name, 0, 100);
         }
 
         $name .= '/';
@@ -85,6 +100,6 @@ class ImageFetcher extends Module
             $image->url, PHP_URL_PATH
         ));
 
-        return $name;
+        return preg_replace('/\/+/', '/', $name);
     }
 }
