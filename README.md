@@ -1,6 +1,6 @@
 # Hentai Cosplay Downloader
 
-This makes it easier for you to download files from [hentai-cosplays.com](https://hentai-cosplays.com/) without having to do it one by one, and you don't have to remember your
+This makes it easier for you to download files from [hentai-cosplays.com](https://hentai-cosplays.com/) or [hentai-img.com](https://hentai-img.com/) without having to do it one by one, and you don't have to remember your
 download progress because we will take care of it.
 
 > **Warning**
